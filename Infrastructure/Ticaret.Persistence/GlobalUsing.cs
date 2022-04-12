@@ -1,0 +1,13 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Tasks;
+global using Ticaret.Application.Repositories.ModelRepositories;
+global using Microsoft.EntityFrameworkCore;
+global using System.Linq.Expressions;
+global using Ticaret.Application.Repositories;
+global using Ticaret.Domain.Entities.Common;
+global using Ticaret.Persistence.Contexts;
+global using Microsoft.EntityFrameworkCore.ChangeTracking;
+global using Ticaret.Domain.Entities;

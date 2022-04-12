@@ -68,8 +68,7 @@ namespace Ticaret.API.Controllers
                 Id = Guid.NewGuid(),
                 Name = name,
                 Description = desc,
-                Price = price,
-                CreatedAt = DateTime.UtcNow
+                Price = price
             };
             await _productWriteRepository.AddAsync(product);
             return Ok(await _productWriteRepository.SaveAsync());

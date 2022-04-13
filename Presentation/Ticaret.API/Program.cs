@@ -9,7 +9,7 @@ builder.Services.AddPersistenceServices();
 builder.Services.AddCors(opt => opt.AddDefaultPolicy(policy =>
  policy.AllowAnyHeader()
     .AllowAnyMethod()
-    .AllowAnyOrigin()
+    .WithOrigins("http://localhost:4200","https://localhost:4200")
  ));
 
 

@@ -19,22 +19,29 @@ namespace Ticaret.Persistence.Contexts
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
 
-        public override int SaveChanges()
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var entities = ChangeTracker.Entries<BaseEntity>()
                 .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified);
 
+            //foreach (var entity in entities)
+            //{
+            //    var now = DateTime.UtcNow; // current datetime
+
+            //    if (entity.State == EntityState.Added)
+            //        ((BaseEntity)entity.Entity).CreatedAt = now;
+            //    ((BaseEntity)entity.Entity).UpdatedAt = now;
+            //}
             foreach (var entity in entities)
             {
-                var now = DateTime.UtcNow; // current datetime
-
-                if (entity.State == EntityState.Added)
+                _ = entity.State switch
                 {
-                    ((BaseEntity)entity.Entity).CreatedAt = now;
-                }
-                ((BaseEntity)entity.Entity).UpdatedAt = now;
+                    EntityState.Added => entity.Entity.CreatedAt = DateTime.UtcNow,
+                    EntityState.Modified => entity.Entity.UpdatedAt = DateTime.UtcNow,
+                    _ => throw new InvalidOperationException("Unexpected entity state")
+                };
             }
-            return base.SaveChanges();
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

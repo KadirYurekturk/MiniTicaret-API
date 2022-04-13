@@ -38,7 +38,7 @@ namespace Ticaret.API.Controllers
         [HttpPut]
         public async Task<IActionResult> Put(string id, string name)
         {
-            var product = await _productReadRepository.GetByIdAsync(id , false);
+            var product = await _productReadRepository.GetByIdAsync(id , true);
             if (product == null)            
                 return NotFound();
             

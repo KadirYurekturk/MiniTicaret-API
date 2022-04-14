@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Ticaret.Application.Repositories.ModelRepositories;
+using Ticaret.Application.ViewModels.Products;
 using Ticaret.Domain.Entities;
 
 namespace Ticaret.API.Controllers
@@ -21,32 +22,32 @@ namespace Ticaret.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var products = _productReadRepository.GetAll();
+            var products = _productReadRepository.GetAll(false);
             return Ok(products);
         }
         //get Single product
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var product = await _productReadRepository.GetByIdAsync(id);
+            var product = await _productReadRepository.GetByIdAsync(id,false);
             if (product == null)
             {
                 return NotFound();
             }
             return Ok(product);
         }
-        [HttpPut]
-        public async Task<IActionResult> Put(string id, string name)
-        {
-            var product = await _productReadRepository.GetByIdAsync(id , true);
-            if (product == null)            
-                return NotFound();
-            
-            product.Name = name;
-            await _productWriteRepository.SaveAsync();
+        //[HttpPut]
+        //public async Task<IActionResult> Put(string id, string name)
+        //{
+        //    var product = await _productReadRepository.GetByIdAsync(id , true);
+        //    if (product == null)            
+        //        return NotFound();
 
-            return NoContent();
-        }
+        //    product.Name = name;
+        //    await _productWriteRepository.SaveAsync();
+
+        //    return NoContent();
+        //}
         //[HttpPost]
         //public async Task<IActionResult> Post()
         //{
@@ -59,18 +60,44 @@ namespace Ticaret.API.Controllers
         //    return Ok( await _productWriteRepository.SaveAsync());
         //}
 
-        //insert product from users
-        [HttpPost()]
-        public async Task<IActionResult> Post( string name, string desc , int price)
+        //update product
+        [HttpPut]
+        public async Task<IActionResult> Put(ProductUpdateViewModel product)
         {
-            Product product = new Product()
+            var productToUpdate = await _productReadRepository.GetByIdAsync(product.Id);
+            if (productToUpdate == null)            
+                return NotFound();
+            
+            productToUpdate.Name = product.Name;
+            productToUpdate.Price = product.Price;
+            productToUpdate.Description = product.Description;
+            
+            return Ok(await _productWriteRepository.SaveAsync());
+        }
+
+        //insert product from users
+        [HttpPost]
+        public async Task<IActionResult> Post(ProductCreateViewModel productvm)
+        {
+            Product product = new()
             {
                 Id = Guid.NewGuid(),
-                Name = name,
-                Description = desc,
-                Price = price
+                Name = productvm.Name,
+                Description = productvm.Description,
+                Price = productvm.Price
             };
             await _productWriteRepository.AddAsync(product);
+            return Ok(await _productWriteRepository.SaveAsync());
+        }
+
+        //delete product
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var productToUpdate = await _productReadRepository.GetByIdAsync(id);
+            if (productToUpdate == null)
+                return NotFound();
+            await _productWriteRepository.DeleteAsync(id);
             return Ok(await _productWriteRepository.SaveAsync());
         }
     }

@@ -29,7 +29,7 @@
             return entityEntry.State == EntityState.Deleted;
         }
 
-        public async Task<bool> Delete(string id)
+        public async Task<bool> DeleteAsync(string id)
         {
             T entity = await Table.FirstOrDefaultAsync(x => x.Id == Guid.Parse(id));
             return Delete(entity);
@@ -48,5 +48,7 @@
         }
         public async Task<int> SaveAsync()
             => await _dbContext.SaveChangesAsync();
+
+        
     }
 }

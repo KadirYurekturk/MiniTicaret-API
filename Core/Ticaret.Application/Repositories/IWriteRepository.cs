@@ -14,7 +14,7 @@ namespace Ticaret.Application.Repositories
         bool Update(T entity);
         bool Delete(T entity);
         bool DeleteRange(List<T> entities);
-        Task<bool> Delete(string id);
+        Task<bool> DeleteAsync(string id);
         Task<int> SaveAsync();
     }
 }

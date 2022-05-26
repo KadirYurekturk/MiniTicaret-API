@@ -8,7 +8,8 @@ namespace Ticaret.Persistence
         {
             get
             {
-                ConfigurationManager configuration = new ConfigurationManager();
+                
+                ConfigurationManager configuration = new();
                 configuration.SetBasePath(Path.Combine(Environment.CurrentDirectory, "../../Presentation/Ticaret.API"));
                 configuration.AddJsonFile("appsettings.json");
                 return configuration.GetConnectionString("PostgreSql");

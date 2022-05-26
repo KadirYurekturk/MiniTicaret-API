@@ -70,7 +70,7 @@ namespace Ticaret.API.Controllers
             
             productToUpdate.Name = product.Name;
             productToUpdate.Price = product.Price;
-            productToUpdate.Description = product.Description;
+            productToUpdate.Stock = product.Stock;
             
             return Ok(await _productWriteRepository.SaveAsync());
         }
@@ -79,11 +79,14 @@ namespace Ticaret.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(ProductCreateViewModel productvm)
         {
+            if (!ModelState.IsValid)            
+                return ValidationProblem("Product parameters are not valid"); 
+            
             Product product = new()
             {
                 Id = Guid.NewGuid(),
                 Name = productvm.Name,
-                Description = productvm.Description,
+                Stock = productvm.Stock,
                 Price = productvm.Price
             };
             await _productWriteRepository.AddAsync(product);

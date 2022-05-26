@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Ticaret.Application\Ticaret.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Ticaret.Infra\Ticaret.Infra.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Ticaret.Persistence\Ticaret.Persistence.csproj" />
   </ItemGroup>
 

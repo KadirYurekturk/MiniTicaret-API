@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Ticaret.Persistence.Contexts;
@@ -11,9 +12,10 @@ using Ticaret.Persistence.Contexts;
 namespace Ticaret.Persistence.Migrations
 {
     [DbContext(typeof(TicaretDbContext))]
-    partial class TicaretDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220512072219_AddStock")]
+    partial class AddStock
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

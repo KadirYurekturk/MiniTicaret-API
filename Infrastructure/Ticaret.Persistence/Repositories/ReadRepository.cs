@@ -1,4 +1,6 @@
-﻿namespace Ticaret.Persistence.Repositories
+﻿using Ticaret.Application.RequestParameters;
+
+namespace Ticaret.Persistence.Repositories
 {
     public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
     {
@@ -17,6 +19,8 @@
                 query = query.AsNoTracking();
             return query;
         }
+
+
 
 
         public async Task<T> GetByIdAsync(string id, bool trackChanges = true)

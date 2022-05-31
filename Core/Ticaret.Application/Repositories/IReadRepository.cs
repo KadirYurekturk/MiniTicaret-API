@@ -1,4 +1,6 @@
-﻿namespace Ticaret.Application.Repositories
+﻿using Ticaret.Application.RequestParameters;
+
+namespace Ticaret.Application.Repositories
 {
     public interface IReadRepository<T> : IRepository<T> where T: BaseEntity
     {

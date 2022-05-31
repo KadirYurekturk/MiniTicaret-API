@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Ticaret.Application.Repositories.ModelRepositories;
+using Ticaret.Application.RequestParameters;
 using Ticaret.Application.ViewModels.Products;
 using Ticaret.Domain.Entities;
 
@@ -19,23 +20,38 @@ namespace Ticaret.API.Controllers
             _productReadRepository = productReadRepository;
         }
 
+        //[HttpGet]
+        //public IActionResult Get()
+        //{
+        //    var products = _productReadRepository.GetAll(false);
+        //    return Ok(products);
+        //}
+        //Get products page and page size
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery]Pagination pagination)
         {
+            
             var products = _productReadRepository.GetAll(false);
-            return Ok(products);
+            var totalCount = products.Count();
+            var pageProducts = products
+                .Skip((pagination.Page)* pagination.ItemsPerPage)
+                .Take(pagination.ItemsPerPage);
+            
+            return Ok(new { pageProducts , totalCount } );
         }
+
+
         //get Single product
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
-        {
-            var product = await _productReadRepository.GetByIdAsync(id,false);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return Ok(product);
-        }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> Get(string id)
+        //{
+        //    var product = await _productReadRepository.GetByIdAsync(id,false);
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return Ok(product);
+        //}
         //[HttpPut]
         //public async Task<IActionResult> Put(string id, string name)
         //{
